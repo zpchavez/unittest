@@ -58,7 +58,7 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 
 			self::$_assert_type_compatability = version_compare(PHPUnit_Runner_Version::id(), '3.5.0', '<=');
 		}
-		
+
 		$this->_helpers = new Kohana_Unittest_Helpers;
 
 		$this->setEnvironment($this->environmentDefault);
@@ -80,6 +80,19 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 	}
 
 	/**
+	 * Fixes the "Cannot truncate a table referenced in a foreign key constraint" error.
+	 */
+	public function getSetUpOperation()
+	{
+		return new \PHPUnit_Extensions_Database_Operation_Composite(
+			array(
+				new Unittest_Database_Operation_Truncate(),
+				PHPUnit_Extensions_Database_Operation_Factory::INSERT()
+			)
+		);
+	}
+
+	/**
 	 * Creates a connection to the unittesting database
 	 *
 	 * @return PDO
@@ -97,23 +110,23 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 		}
 
 		$pdo = new PDO(
-			$config['connection']['dsn'], 
-			$config['connection']['username'], 
+			$config['connection']['dsn'],
+			$config['connection']['username'],
 			$config['connection']['password']
 		);
 
 		return $this->createDefaultDBConnection($pdo, $config['connection']['database']);
 	}
 
-    /**
-     * Gets a connection to the unittest database
-     *
-     * @return Kohana_Database The database connection
-     */
-    public function getKohanaConnection()
-    {
-        return Database::instance(Kohana::$config->load('unittest')->db_connection);
-    }
+	/**
+	 * Gets a connection to the unittest database
+	 *
+	 * @return Kohana_Database The database connection
+	 */
+	public function getKohanaConnection()
+	{
+		return Database::instance(Kohana::$config->load('unittest')->db_connection);
+	}
 
 	/**
 	 * Removes all kohana related cache files in the cache directory
@@ -178,7 +191,7 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 
 		return parent::assertInstanceOf($expected, $actual, $message);
 	}
-	
+
 	/**
 	 * Asserts that an attribute is of a given type.
 	 *
@@ -249,7 +262,7 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 		{
 			return self::assertType($expected, $actual, $message);
 		}
-		
+
 		return parent::assertInternalType($expected, $actual, $message);
 	}
 

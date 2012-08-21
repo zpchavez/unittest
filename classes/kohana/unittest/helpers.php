@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 /**
  * Unit testing helpers
  */
 class Kohana_Unittest_Helpers {
 	/**
-	 * Static variable used to work out whether we have an internet 
-	 * connection 
+	 * Static variable used to work out whether we have an internet
+	 * connection
 	 * @see has_internet
 	 * @var boolean
 	 */
@@ -32,7 +32,7 @@ class Kohana_Unittest_Helpers {
 
 	/**
 	 * Helper function which replaces the "/" to OS-specific delimiter
-	 * 
+	 *
 	 * @param string $path
 	 * @return string
 	 */
@@ -42,7 +42,7 @@ class Kohana_Unittest_Helpers {
 	}
 
 	/**
-	 * Removes all cache files from the kohana cache dir 
+	 * Removes all cache files from the kohana cache dir
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class Kohana_Unittest_Helpers {
 			if ($dir[0] !== '.' AND strlen($dir) === 2)
 			{
 				$dir = self::dir_separator(Kohana::$cache_dir.'/'.$dir.'/');
-	
+
 				$cache = opendir($dir);
 
 				while ($file = readdir($cache))
@@ -138,7 +138,7 @@ class Kohana_Unittest_Helpers {
 				{
 					$this->_environment_backup[$option] = isset($_SERVER[$option]) ? $_SERVER[$option] : '';
 				}
-				
+
 				$_SERVER[$option] = $value;
 			}
 			// Else we assume this is a config option
@@ -160,10 +160,10 @@ class Kohana_Unittest_Helpers {
 	 * Restores the environment to the original state
 	 *
 	 * @chainable
-	 * @return Kohana_Unittest_Helpers $this 
+	 * @return Kohana_Unittest_Helpers $this
 	 */
 	public function restore_environment()
 	{
-		$this->set_environment($this->_environment_backup);	
+		$this->set_environment($this->_environment_backup);
 	}
 }

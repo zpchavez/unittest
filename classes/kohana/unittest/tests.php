@@ -81,7 +81,7 @@ class Kohana_Unittest_Tests {
 		{
 			return $suite;
 		}
-		
+
 		Unittest_Tests::configure_environment();
 
 		$files = Kohana::list_files('tests');

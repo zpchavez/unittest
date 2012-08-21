@@ -5,7 +5,7 @@
  * and default settings
  */
 abstract class Kohana_Unittest_TestCase extends PHPUnit_Framework_TestCase {
-	
+
 	/**
 	 * Whether we should enable work arounds to make the tests compatible with phpunit 3.4
 	 * @var boolean
@@ -128,7 +128,7 @@ abstract class Kohana_Unittest_TestCase extends PHPUnit_Framework_TestCase {
 
 		return parent::assertInstanceOf($expected, $actual, $message);
 	}
-	
+
 	/**
 	 * Asserts that an attribute is of a given type.
 	 *
@@ -199,7 +199,7 @@ abstract class Kohana_Unittest_TestCase extends PHPUnit_Framework_TestCase {
 		{
 			return self::assertType($expected, $actual, $message);
 		}
-		
+
 		return parent::assertInternalType($expected, $actual, $message);
 	}
 

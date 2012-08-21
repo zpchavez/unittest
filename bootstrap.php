@@ -33,8 +33,8 @@ define('EXT', '.php');
 /**
  * Set the path to the document root
  *
- * This assumes that this file is stored 2 levels below the DOCROOT, if you move 
- * this bootstrap file somewhere else then you'll need to modify this value to 
+ * This assumes that this file is stored 2 levels below the DOCROOT, if you move
+ * this bootstrap file somewhere else then you'll need to modify this value to
  * compensate.
  */
 define('DOCROOT', realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR);

@@ -29,14 +29,14 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	{
 		Auth::reset_instance_returned();
 		Kohana_Test::reset_paths();
-		$this->reset_response();
+		$this->resetResponse();
 		parent::tearDown();
 	}
 
 	/**
 	 * Discard the response from the last request.
 	 */
-	public function reset_response()
+	public function resetResponse()
 	{
 		$this->_response = NULL;
 		$this->_redirect = NULL;

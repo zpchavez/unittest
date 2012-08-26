@@ -49,19 +49,19 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	 */
 	public function withUserLoggedIn($user)
 	{
-        $authMock = $this->getMockBuilder('Auth_ORM')
-            ->disableOriginalConstructor()
-            ->getMock();
+		$authMock = $this->getMockBuilder('Auth_ORM')
+			->disableOriginalConstructor()
+			->getMock();
 
-        $authMock->expects($this->any())
-            ->method('logged_in')
-            ->will($this->returnValue(true));
+		$authMock->expects($this->any())
+			->method('logged_in')
+			->will($this->returnValue(true));
 
-        $authMock->expects($this->any())
-            ->method('get_user')
-            ->will($this->returnValue($user));
+		$authMock->expects($this->any())
+			->method('get_user')
+			->will($this->returnValue($user));
 
-        Auth::set_instance_returned($authMock);
+		Auth::set_instance_returned($authMock);
 	}
 
 	/**
@@ -78,7 +78,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 
 		try
 		{
-			$request = new Request($uri);
+			$request = Request::factory($uri);
 			$this->_response = $request
 				->query($getParams)
 				->execute();
@@ -103,7 +103,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 
 		try
 		{
-			$request = new Request($uri);
+			$request = Request::factory($uri);
 			$this->_response = $request
 				->method('POST')
 				->post($postParams)

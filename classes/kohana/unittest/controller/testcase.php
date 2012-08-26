@@ -28,6 +28,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	public function tearDown()
 	{
 		Auth::reset_instance_returned();
+		ORM::reset_factory_output();
 		Kohana_Test::reset_paths();
 		$this->resetResponse();
 		parent::tearDown();

@@ -188,4 +188,17 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 			'Failed asserting redirect to '.$expected
 		);
 	}
+
+	/**
+	 * Assert the value of the decoded JSON response.
+	 *
+	 * @throws PHPUnit_Framework_AssertionFailedError
+	 * @param  mixed $expected
+	 * @param  bool  $asObject  Whether to decode as an object instead of an array.
+	 */
+	public function assertJsonDecodedResponseEquals($expected, $asObject = FALSE)
+	{
+		$decoded_response = json_decode($this->_response->body(), ! $asObject);
+		$this->assertEquals($expected, $decoded_response);
+	}
 }

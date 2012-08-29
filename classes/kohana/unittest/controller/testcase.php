@@ -56,7 +56,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 
 		$authMock->expects($this->any())
 			->method('logged_in')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 
 		$authMock->expects($this->any())
 			->method('get_user')
@@ -66,7 +66,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	}
 
 	/**
-	 * Make a get request and save the response in $this->response.
+	 * Make a get request and save the response in $this->_response.
 	 *
 	 * @param  string $routeName
 	 * @param  array  $routeParams
@@ -75,7 +75,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	 */
 	public function makeGetRequest($routeName, $routeParams = array(), $getParams = array())
 	{
-		$uri = Route::get($routeName)->uri($routeParams);
+		$uri = Route::url($routeName, $routeParams);
 
 		try
 		{
@@ -86,12 +86,12 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 		}
 		catch (RedirectException $e)
 		{
-			$this->_redirect = json_decode($e->getMessage(), true);
+			$this->_redirect = json_decode($e->getMessage(), TRUE);
 		}
 	}
 
 	/**
-	 * Make a post request and save the response in $this->response.
+	 * Make a post request and save the response in $this->_response.
 	 *
 	 * @param  string $routeName
 	 * @param  array  $routeParams
@@ -100,19 +100,62 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	 */
 	public function makePostRequest($routeName, $routeParams = array(), $postParams = array())
 	{
-		$uri = Route::get($routeName)->uri($routeParams);
+		$uri = Route::url($routeName, $routeParams);
 
 		try
 		{
 			$request = Request::factory($uri);
 			$this->_response = $request
-				->method('POST')
+				->method(Http_Request::POST)
 				->post($postParams)
 				->execute();
 		}
 		catch (RedirectException $e)
 		{
-			$this->_redirect = json_decode($e->getMessage(), true);
+			$this->_redirect = json_decode($e->getMessage(), TRUE);
+		}
+	}
+
+	/**
+	 * Make a post request and save the response in $this->_response.
+	 *
+	 * @param  string $routeName
+	 * @param  array  $routeParams
+	 * @param  array  $getParams
+	 * @return Kohana_Unittest_Controller_TestCase  This object.
+	 */
+	public function makePutRequest($routeName, $routeParams = array(), $putParams = array())
+	{
+		$uri = Route::url($routeName, $routeParams);
+
+		try
+		{
+			$request = Request::factory($uri);
+			$this->_response = $request
+				->method(Http_Request::PUT)
+				->post($putParams)
+				->execute();
+		}
+		catch (RedirectException $e)
+		{
+			$this->_redirect = json_decode($e->getMessage(), TRUE);
+		}
+	}
+
+	public function makeDeleteRequest($routeName, $routeParams = array())
+	{
+		$uri = Route::url($routeName, $routeParams);
+
+		try
+		{
+			$request = Request::factory($uri);
+			$this->_response = $request
+				->method(Http_Request::DELETE)
+				->execute();
+		}
+		catch (RedirectException $e)
+		{
+			$this->_redirect = json_decode($e->getMessage(), TRUE);
 		}
 	}
 

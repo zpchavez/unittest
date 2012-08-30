@@ -160,21 +160,16 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	}
 
 	/**
-	 * Assert that an HTML string has a match for a CSS selector and that it optionally
-	 * contains the specified content.
+	 * Assert than an HTML (or XML) string has a match for a CSS selector and,
+	 * optionally, that it contains the specified pattern in its content.
 	 *
 	 * @throws PHPUnit_Framework_AssertionFailedError
+	 * @param  string $html
 	 * @param  string $selector CSS selector.
 	 * @param  string $pattern  A regex pattern to match the element's content.
 	 */
-	public function assertResponseContains($selector, $pattern = NULL)
+	public function assertHtmlContains($html, $selector, $pattern = NULL)
 	{
-		$response = $this->_response;
-		if (!$response) {
-			$this->fail('No response found.');
-		}
-
-		$html   = $response->body();
 		$dom    = new Zend_Dom_Query($html);
 		$result = $dom->query($selector);
 
@@ -190,6 +185,24 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 			$selectedHtml = $node->nodeValue;
 			$this->assertRegExp($pattern, $selectedHtml);
 		}
+	}
+
+	/**
+	 * Assert that the response body has a match for a CSS selector and,
+	 * optionally, that it contains the specified pattern in its content.
+	 *
+	 * @throws PHPUnit_Framework_AssertionFailedError
+	 * @param  string $selector CSS selector.
+	 * @param  string $pattern  A regex pattern to match the element's content.
+	 */
+	public function assertResponseContains($selector, $pattern = NULL)
+	{
+		$response = $this->_response;
+		if (!$response) {
+			$this->fail('No response found.');
+		}
+
+		$this->assertHtmlContains($response->body(), $selector, $pattern);
 	}
 
 	/**

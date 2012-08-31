@@ -1,7 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-require Kohana::find_file('vendor/Zend/Dom', 'Query');
-
 /**
  * Class for testing controllers.
  */
@@ -170,20 +168,25 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	 */
 	public function assertHtmlContains($html, $selector, $pattern = NULL)
 	{
-		$dom    = new Zend_Dom_Query($html);
-		$result = $dom->query($selector);
-
-		$this->assertNotEquals(
-			0,
-			$result->count(),
-			'Failed asserting that response body contains selector: '.$selector
-		);
-
 		if ($pattern)
 		{
-			$node = $result->current();
-			$selectedHtml = $node->nodeValue;
-			$this->assertRegExp($pattern, $selectedHtml);
+			$this->assertSelectRegExp(
+				$selector,
+				$pattern,
+				array('>=' => 1),
+				$html,
+				'Failed asserting that response body contains selector "'.$selector
+				.'" containing the pattern "'.$pattern.'".'
+			);
+		}
+		else
+		{
+			$this->assertSelectCount(
+				$selector,
+				array('>=' => 1),
+				$html,
+				'Failed asserting that response contains selector "'.$selector.'".'
+			);
 		}
 	}
 

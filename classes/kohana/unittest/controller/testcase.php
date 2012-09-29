@@ -93,7 +93,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	 *
 	 * @param  string $routeName
 	 * @param  array  $routeParams
-	 * @param  array  $getParams
+	 * @param  array  $postParams
 	 * @return Kohana_Unittest_Controller_TestCase  This object.
 	 */
 	public function makePostRequest($routeName, $routeParams = array(), $postParams = array())
@@ -115,11 +115,37 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	}
 
 	/**
-	 * Make a post request and save the response in $this->_response.
+	 * Make a post request with JSON content and save the response in $this->_response.
 	 *
 	 * @param  string $routeName
 	 * @param  array  $routeParams
-	 * @param  array  $getParams
+	 * @param  array  $body
+	 * @return Kohana_Unittest_Controller_TestCase  This object.
+	 */
+	public function makeJsonPostRequest($routeName, $routeParams = array(), $body)
+	{
+		$uri = Route::url($routeName, $routeParams);
+
+		try
+		{
+			$request = Request::factory($uri);
+			$this->_response = $request
+				->method(Http_Request::POST)
+				->body($body)
+				->execute();
+		}
+		catch (RedirectException $e)
+		{
+			$this->_redirect = json_decode($e->getMessage(), TRUE);
+		}
+	}
+
+	/**
+	 * Make a put request and save the response in $this->_response.
+	 *
+	 * @param  string $routeName
+	 * @param  array  $routeParams
+	 * @param  array  $putParams
 	 * @return Kohana_Unittest_Controller_TestCase  This object.
 	 */
 	public function makePutRequest($routeName, $routeParams = array(), $putParams = array())
@@ -132,6 +158,32 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 			$this->_response = $request
 				->method(Http_Request::PUT)
 				->post($putParams)
+				->execute();
+		}
+		catch (RedirectException $e)
+		{
+			$this->_redirect = json_decode($e->getMessage(), TRUE);
+		}
+	}
+
+	/**
+	 * Make a put request with JSON content and save the response in $this->_response.
+	 *
+	 * @param  string $routeName
+	 * @param  array  $routeParams
+	 * @param  array  $body
+	 * @return Kohana_Unittest_Controller_TestCase  This object.
+	 */
+	public function makeJsonPutRequest($routeName, $routeParams = array(), $body)
+	{
+		$uri = Route::url($routeName, $routeParams);
+
+		try
+		{
+			$request = Request::factory($uri);
+			$this->_response = $request
+				->method(Http_Request::PUT)
+				->body($body)
 				->execute();
 		}
 		catch (RedirectException $e)

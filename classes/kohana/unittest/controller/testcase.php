@@ -119,10 +119,10 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	 *
 	 * @param  string $routeName
 	 * @param  array  $routeParams
-	 * @param  array  $body
+	 * @param  array  $params
 	 * @return Kohana_Unittest_Controller_TestCase  This object.
 	 */
-	public function makeJsonPostRequest($routeName, $routeParams = array(), $body)
+	public function makeJsonPostRequest($routeName, $routeParams = array(), $params = array())
 	{
 		$uri = Route::url($routeName, $routeParams);
 
@@ -131,7 +131,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 			$request = Request::factory($uri);
 			$this->_response = $request
 				->method(Http_Request::POST)
-				->body($body)
+				->body(json_encode($params))
 				->execute();
 		}
 		catch (RedirectException $e)
@@ -171,10 +171,10 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 	 *
 	 * @param  string $routeName
 	 * @param  array  $routeParams
-	 * @param  array  $body
+	 * @param  array  $params
 	 * @return Kohana_Unittest_Controller_TestCase  This object.
 	 */
-	public function makeJsonPutRequest($routeName, $routeParams = array(), $body)
+	public function makeJsonPutRequest($routeName, $routeParams = array(), $params = array())
 	{
 		$uri = Route::url($routeName, $routeParams);
 
@@ -183,7 +183,7 @@ abstract class Kohana_Unittest_Controller_TestCase extends Unittest_TestCase
 			$request = Request::factory($uri);
 			$this->_response = $request
 				->method(Http_Request::PUT)
-				->body($body)
+				->body(json_encode($params))
 				->execute();
 		}
 		catch (RedirectException $e)
